@@ -1,0 +1,447 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#"
+     xml:base="http://www.semanticweb.org/pablo/ontologies/2018/3/stf"
+     xmlns:stf="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:nfo="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:foaf="http://xmlns.com/foaf/spec/#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileOwner -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileOwner">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#owns"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject"/>
+        <rdfs:domain rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Folder"/>
+        <rdfs:range rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Application"/>
+        <rdfs:range rdf:resource="http://xmlns.com/foaf/spec/#term_Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#created -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#created">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#fileCreator"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#fileCreator -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#fileCreator">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject"/>
+        <rdfs:domain rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Folder"/>
+        <rdfs:range rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Application"/>
+        <rdfs:range rdf:resource="http://xmlns.com/foaf/spec/#term_Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasFileFormat -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasFileFormat">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#isFormatOf"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasLocation -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasLocation">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#isLocationOf"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasLocation"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject"/>
+                            <rdf:Description rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Folder"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:domain>
+        <rdfs:range>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasLocation"/>
+                <owl:allValuesFrom rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Folder"/>
+            </owl:Restriction>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#isFormatOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#isFormatOf">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#isLocationOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#isLocationOf">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#owns -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#owns">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileName -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileName">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileSize -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileSize">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#byte"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Application -->
+
+    <owl:Class rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Application">
+        <owl:equivalentClass rdf:resource="http://xmlns.com/foaf/spec/#term_Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Audio -->
+
+    <owl:Class rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Audio">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasFileFormat"/>
+                        <owl:hasValue rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MP3"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject -->
+
+    <owl:Class rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasLocation"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Folder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasFileFormat"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onClass rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileSize"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#byte"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:label xml:lang="en">RegularFile</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Folder -->
+
+    <owl:Class rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Folder">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#isLocationOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#isLocationOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Folder"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileSize"/>
+                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="http://www.w3.org/2001/XMLSchema#byte"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Image -->
+
+    <owl:Class rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Image">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasFileFormat"/>
+                                <owl:hasValue rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#JPEG"/>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasFileFormat"/>
+                                <owl:hasValue rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#JPG"/>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasFileFormat"/>
+                                <owl:hasValue rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#PNG"/>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Video -->
+
+    <owl:Class rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Video">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#FileDataObject"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasFileFormat"/>
+                                <owl:hasValue rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#AVI"/>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasFileFormat"/>
+                                <owl:hasValue rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MKV"/>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#hasFileFormat"/>
+                                <owl:hasValue rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MP4"/>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#AlbumDirectory -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#AlbumDirectory">
+        <rdfs:subClassOf rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Folder"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MusicAlbum -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MusicAlbum">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#AlbumDirectory"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#isLocationOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Audio"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#PhotoAlbum -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#PhotoAlbum">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#AlbumDirectory"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#isLocationOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Image"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#TVShow -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#TVShow">
+        <rdfs:subClassOf rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Folder"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#isLocationOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Video"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/foaf/spec/#term_Person -->
+
+    <owl:Class rdf:about="http://xmlns.com/foaf/spec/#term_Person">
+        <rdfs:label xml:lang="en">User</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#AVI -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#AVI">
+        <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#JPEG -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#JPEG">
+        <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#JPG -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#JPG">
+        <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MKV -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MKV">
+        <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MP3 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MP3">
+        <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MP4 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MP4">
+        <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#PNG -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#PNG">
+        <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#TXT -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#TXT">
+        <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi -->
+
