@@ -23,13 +23,25 @@ NS['a'] = NS['rdf']+'type'
 
 def _ns_tags(concepts):
     try:
-        return [NS[l[0].lower()] + l[1] for l in prefix_suffix(concepts)]
+        return [NS[p_s[0].lower()] + p_s[1] for p_s in prefix_suffix(concepts)]
     except KeyError as error:
         print("ERROR: Not a valid key for registered namespaces -> ", error)
 
 
 def get_namespaces():
-    return [prefix + ':' + str(uri) for prefix, uri in NS.items()]
+    return dict([(prefix, str(uri)) for prefix, uri in NS.items()])
+
+
+def get_classes():
+    classes = []
+    for cls in GRAPH.subjects(NS['a'], NS['owl']+'Class'):
+        if not cls.isidentifier():
+            q_cls = GRAPH.qname(cls)
+            if not q_cls.count(':'):
+                q_cls = ':' + q_cls
+            classes.append(q_cls)
+
+    return classes
 
 
 def bind(namespaces):

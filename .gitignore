@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# sparql
+*.sparql
+
+# stf
+stf/ontologies/catalog-v001.xml

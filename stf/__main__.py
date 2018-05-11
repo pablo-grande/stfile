@@ -16,10 +16,10 @@ parser_query.add_argument('-o','--output', help='output file', type=argparse.Fil
 
 parser_tag = subparsers.add_parser('tag', description='Apply tags to the given path')
 parser_tag.add_argument('path', help='path to run the command', type=str)
-parser_tag.add_argument('tags', help='tags to apply in a <prefix>:<suffix>', nargs='+')
+parser_tag.add_argument('tags', help='tags to apply in a <prefix>:<suffix> format', nargs='+')
 
 parser_list = subparsers.add_parser('list', description='List all instances of a given tag')
-parser_list.add_argument('tags', help='tags to search in a <prefix>:<suffix>', nargs='+')
+parser_list.add_argument('tags', help='tags to search in a <prefix>:<suffix> format', nargs='+')
 
 parser_show = subparsers.add_parser('show', description='Shows whole graph')
 parser_show.add_argument('-f', '--format', help='Format of serialization of graph', default='n3', choices=['n3','xml','pretty-xml','nt'])
