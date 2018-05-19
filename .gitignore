@@ -105,3 +105,4 @@ ENV/
 
 # stf
 stf/ontologies/catalog-v001.xml
+*.graph

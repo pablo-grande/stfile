@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*
 import os
+from sys import exit
 from rdflib import Graph
 from rdflib import BNode
 from rdflib import Literal
@@ -11,8 +12,13 @@ from helpers import prefix_suffix
 
 
 GRAPH = Graph()
-with open(get_current_dir() + '/ontologies/file_system.owl', 'r') as fs:
-    GRAPH.parse(fs)
+GRAPH_FILE = get_current_dir() + '/.graph'
+
+if os.path.exists(GRAPH_FILE):
+    GRAPH.load(GRAPH_FILE)
+else:
+    with open(get_current_dir() + '/ontologies/file_system.owl', 'r') as fs:
+        GRAPH.load(fs)
 
 NS = {}
 for _prefix, _uri in GRAPH.namespace_manager.namespaces():
@@ -25,7 +31,7 @@ def _ns_tags(concepts):
     try:
         return [NS[p_s[0].lower()] + p_s[1] for p_s in prefix_suffix(concepts)]
     except KeyError as error:
-        print("ERROR: Not a valid key for registered namespaces -> ", error)
+        exit("ERROR: Not a valid key for registered namespaces -> {0}".format(error))
 
 
 def get_namespaces():
@@ -131,3 +137,5 @@ def tag(path, tags):
 
         for file_name in files:
             _tag_file({'node': _dir, 'path': dir_path}, file_name, ns_tags)
+
+    GRAPH.serialize(GRAPH_FILE, format='xml')
