@@ -6,9 +6,9 @@ from rdflib import BNode
 from rdflib import Literal
 from rdflib.namespace import Namespace
 from rdflib.plugins.sparql import prepareQuery
-from helpers import get_current_dir
-from helpers import get_meta_info
-from helpers import prefix_suffix
+from .helpers import get_current_dir
+from .helpers import get_meta_info
+from .helpers import prefix_suffix
 
 
 GRAPH = Graph()
@@ -17,7 +17,7 @@ GRAPH_FILE = get_current_dir() + '/.graph'
 if os.path.exists(GRAPH_FILE):
     GRAPH.load(GRAPH_FILE)
 else:
-    with open(get_current_dir() + '/ontologies/file_system.owl', 'r') as fs:
+    with open(get_current_dir() +'/ontologies/file_system.owl', 'r') as fs:
         GRAPH.load(fs)
 
 NS = {}
