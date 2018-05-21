@@ -1,14 +1,24 @@
 # -*- coding: utf-8 -*
 import os
 import fleep
+from yaml import load
+from rdflib.namespace import Namespace
 
 
-def get_current_dir():
-    return os.path.join(os.path.dirname(__file__))
+_current_dir = os.path.join(os.path.dirname(__file__))
 
 
-def prefix_suffix(lst):
-    return [word.split(':') for word in lst]
+def set_up():
+    config = {}
+
+    with open(_current_dir + '/config.yml', 'r') as conf:
+        config = load(conf)
+        config['namespaces'] = {k: Namespace(v).term('') for k,v in config['namespaces'].items()}
+
+    config['graph_file'] = _current_dir + '/.graph'
+    config['base_ontology'] = _current_dir + '/ontologies/file_system.owl'
+
+    return config, os.path.exists(config['graph_file'])
 
 
 def get_meta_info(filename):

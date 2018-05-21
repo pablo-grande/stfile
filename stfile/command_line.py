@@ -25,9 +25,6 @@ def main():
     parser_show = subparsers.add_parser('show', description='Shows whole graph')
     parser_show.add_argument('-f', '--format', help='Format of serialization of graph', default='n3', choices=['n3','xml','pretty-xml','nt'])
 
-    parser_ns = subparsers.add_parser('namespaces', description='List all registered namespaces')
-    parser_ns.add_argument('-a', '--add', help='Bind namespace(s) to the graph\nWrite the preffix and the URI of the namespace separated by ":": <prefix>:<URI>', nargs='+')
-
     args = parser.parse_args()
     subparser = args.subparser
 
@@ -58,8 +55,3 @@ def main():
 
     elif subparser == 'show':
         print(serialize(args.format))
-
-    elif subparser == 'namespaces':
-        if args.add:
-            print(bind(args.add))
-        pprint(get_namespaces())

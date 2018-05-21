@@ -4,58 +4,33 @@ from sys import exit
 from rdflib import Graph
 from rdflib import BNode
 from rdflib import Literal
-from rdflib.namespace import Namespace
 from rdflib.plugins.sparql import prepareQuery
-from .helpers import get_current_dir
 from .helpers import get_meta_info
-from .helpers import prefix_suffix
+from .helpers import set_up
 
 
+CONFIG, _load = set_up()
 GRAPH = Graph()
-GRAPH_FILE = get_current_dir() + '/.graph'
 
-if os.path.exists(GRAPH_FILE):
-    GRAPH.load(GRAPH_FILE)
+if _load:
+    GRAPH.load(CONFIG['graph_file'])
 else:
-    with open(get_current_dir() +'/ontologies/file_system.owl', 'r') as fs:
-        GRAPH.load(fs)
+    GRAPH.parse(CONFIG['base_ontology'])
 
 NS = {}
 for _prefix, _uri in GRAPH.namespace_manager.namespaces():
     NS[_prefix] = _uri
 
-NS['a'] = NS['rdf']+'type'
+if CONFIG.get('namespaces'):
+    NS.update(CONFIG['namespaces'])
 
 
 def _ns_tags(concepts):
+    _concepts = [word.split(':') for word in concepts]
     try:
-        return [NS[p_s[0].lower()] + p_s[1] for p_s in prefix_suffix(concepts)]
+        return [NS[p_s[0].lower()] + p_s[1] for p_s in _concepts]
     except KeyError as error:
         exit("ERROR: Not a valid key for registered namespaces -> {0}".format(error))
-
-
-def get_namespaces():
-    return dict([(prefix, str(uri)) for prefix, uri in NS.items()])
-
-
-def get_classes():
-    classes = []
-    for cls in GRAPH.subjects(NS['a'], NS['owl']+'Class'):
-        if not cls.isidentifier():
-            q_cls = GRAPH.qname(cls)
-            if not q_cls.count(':'):
-                q_cls = ':' + q_cls
-            classes.append(q_cls)
-
-    return classes
-
-
-def bind(namespaces):
-    for namespace in prefix_suffix(namespaces):
-        if len(namespace) > 1:
-            prefix, uri = namespace[0], namespace[1]
-            GRAPH.bind(prefix, Namespace(uri))
-            NS[prefix] = uri
 
 
 def query(statement):
@@ -70,26 +45,28 @@ def serialize(format_as='n3'):
 def get_subjects_with(tags):
     """List all subjects with matching tags.
 
-    Retrieves subject's labels with the given *tags as objects in a triple from
-    the GRAPH.
+    Retrieves subject's labels with the given tags as objects in a triple from
+    the GRAPH. Tries to map with the label of the given namespace, if not found
+    the key will be the given tag in the list.
 
     Args:
-        tags: A list of concepts to fill the object placeholder in a <subject>,
+    tags: A list of concepts to fill the <object> placeholder in a <subject>,
         <predicate>, <object> triple.
 
     Returns:
-        A dictionary mapping the label namespace from our tag with a list of
-        labels of the object(s) found.
+        A dictionary mapping the tag with a list of labels of the object(s) found.
     """
     results = {}
-    for tag in _ns_tags(tags):
+    for index, tag in enumerate(_ns_tags(tags)):
         key = str(GRAPH.label(tag))
-        if key != '':
-            results[key] = []
-            for subject in GRAPH.subjects(None, tag):
-                label = GRAPH.label(subject)
-                if label != '':
-                    results[key].append(str(label))
+        if key == '':
+            key = tags[index]
+        results[key] = []
+        
+        for subject in GRAPH.subjects(None, tag):
+            label = GRAPH.label(subject)
+            if label != '':
+                results[key].append(str(label))
 
     return results
 
@@ -138,4 +115,4 @@ def tag(path, tags):
         for file_name in files:
             _tag_file({'node': _dir, 'path': dir_path}, file_name, ns_tags)
 
-    GRAPH.serialize(GRAPH_FILE, format='xml')
+    GRAPH.serialize(CONFIG['graph_file'], format='xml')
