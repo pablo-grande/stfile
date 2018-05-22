@@ -12,3 +12,5 @@ class TestConfig(TestCase):
         self.assertIsNotNone(config.get('graph_file'))
         self.assertIsNotNone(config.get('base_ontology'))
         self.assertIsNotNone(config.get('namespaces'))
+
+        self.assertEqual(config.get('language'), 'en')
