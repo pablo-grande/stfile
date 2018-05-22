@@ -62,7 +62,7 @@ def get_subjects_with(tags):
         if key == '':
             key = tags[index]
         results[key] = []
-        
+
         for subject in GRAPH.subjects(None, tag):
             label = GRAPH.label(subject)
             if label != '':
@@ -83,36 +83,44 @@ def tag(path, tags):
             node.
         tags: A list of concepts to apply to the node.
     """
-    def _apply_tags(subject, tags):
+    def apply_tags(subject, tags):
         for tag in tags:
             GRAPH.add((subject, NS['a'], tag))
 
-    def _tag_file(directory, file_name, tags):
+
+    def tag_file(directory, file_name, tags):
         full_path = os.path.join(directory['path'], file_name)
-        _, file_format = get_meta_info(full_path)
         _file = BNode()
-        _apply_tags(_file, tags)
+        apply_tags(_file, tags)
         GRAPH.add((_file, NS['a'], NS['nfo']+'FileDataObject'))
-        GRAPH.set((_file, NS['rdfs']+'label', Literal(file_name, datatype=NS['xsd']+'string')))
-        GRAPH.set((_file, NS['nfo']+'fileName', Literal(file_name, datatype=NS['xsd']+'string')))
-        GRAPH.set((_file, NS['nfo']+'fileSize', Literal(os.path.getsize(full_path), datatype=NS['xsd']+'bytes')))
+        literal_file_name = Literal(file_name, datatype=NS['xsd']+'string')
+        GRAPH.set((_file, NS['rdfs']+'label', literal_file_name))
+        GRAPH.set((_file, NS['nfo']+'fileName', literal_file_name))
+        GRAPH.set(
+            (_file, NS['nfo']+'fileSize',
+            Literal(os.path.getsize(full_path), datatype=NS['xsd']+'bytes')))
         GRAPH.set((_file, NS['']+'location', directory['node']))
-        GRAPH.set((_file, NS['']+'fileFormat', NS['']+file_format.upper()))
+
+        _, file_format = get_meta_info(full_path)
+        if file_format:
+            GRAPH.set((_file, NS['']+'fileFormat', NS['']+file_format.upper()))
+
 
     ns_tags = _ns_tags(tags)
     if os.path.isfile(path):
         dir_path = '/'.join(os.path.abspath(path).split('/')[:-1])
-        _tag_file({'node': BNode(), 'path': dir_path}, os.path.basename(path), ns_tags)
+        tag_file({'node': BNode(), 'path': dir_path}, os.path.basename(path), ns_tags)
 
     for root, _, files in os.walk(path):
         dir_path = os.path.abspath(root)
         _dir = BNode()
-        _apply_tags(_dir, ns_tags)
+        apply_tags(_dir, ns_tags)
         GRAPH.add((_dir, NS['a'], NS['nfo']+'Folder'))
-        GRAPH.set((_dir, NS['rdfs']+'label', Literal(dir_path, datatype=NS['xsd']+'string')))
-        GRAPH.set((_dir, NS['']+'path', Literal(dir_path, datatype=NS['xsd']+'string')))
+        literal_dir_path = Literal(dir_path, datatype=NS['xsd']+'string')
+        GRAPH.set((_dir, NS['rdfs']+'label', literal_dir_path))
+        GRAPH.set((_dir, NS['']+'path', literal_dir_path))
 
         for file_name in files:
-            _tag_file({'node': _dir, 'path': dir_path}, file_name, ns_tags)
+            tag_file({'node': _dir, 'path': dir_path}, file_name, ns_tags)
 
     GRAPH.serialize(CONFIG['graph_file'], format='xml')
