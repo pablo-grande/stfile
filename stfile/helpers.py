@@ -22,7 +22,14 @@ def set_up():
 
 
 def get_meta_info(filename):
-    with open(filename, 'rb') as f:
-        info = fleep.get(f.read(128))
-
-    return info.type[0], info.extension[0]
+    try:
+        with open(filename, 'rb') as f:
+            info = fleep.get(f.read(128))
+        type, extension = info.type[0], info.extension[0]
+    except IndexError:
+        if len(info.type) == 0:
+            type = None
+        if len(info.extension) == 0:
+            extension = None
+    finally:
+        return type, extension
