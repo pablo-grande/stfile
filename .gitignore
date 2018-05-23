@@ -103,6 +103,6 @@ ENV/
 # sparql
 *.sparql
 
-# stf
-stf/ontologies/catalog-v001.xml
+# stfile
+stfile/ontologies/catalog-v001.xml
 *.graph
