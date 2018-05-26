@@ -8,9 +8,7 @@ class TestConfig(TestCase):
     def test_set_up(self):
         config, _ = helpers.set_up()
         self.assertIsInstance(config, dict)
-
         self.assertIsNotNone(config.get('graph_file'))
         self.assertIsNotNone(config.get('base_ontology'))
         self.assertIsNotNone(config.get('namespaces'))
-
         self.assertEqual(config.get('language'), 'en')

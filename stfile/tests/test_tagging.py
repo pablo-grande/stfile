@@ -15,11 +15,30 @@ class TestTagging(TestCase):
 
         self.contents = contents
 
-    def test_1_tag(self):
-        stfile.tag(self.folder, [':AlbumFolder'])
-        elements = stfile.get_subjects_with([':AlbumFolder'])
 
+    def test_get_node_by_label(self):
+        tag = ['nfo:Folder']
+        stfile.tag(self.folder, tag)
+        found, node = stfile.get_node_by_label(self.folder)
+
+    def test_tag_1(self):
+        tag = [':AlbumFolder']
+        stfile.tag(self.folder, tag)
+        elements = stfile.get_subjects_with(tag)
         # :AlbumFolder has a label of just 'AlbumFolder'
-        values = elements['AlbumFolder']
+        self.assertTrue(set(self.contents) <= set(elements['AlbumFolder']))
 
-        self.assertTrue(set(self.contents) <= set(values))
+    def test_tag_2(self):
+        tags = [':AlbumFolder', ':MusicAlbum']
+        stfile.tag(self.folder, tags)
+        elements = stfile.get_subjects_with(tags)
+        self.assertTrue(set(self.contents) <= set(elements['AlbumFolder']))
+        self.assertTrue(set(self.contents) <= set(elements['MusicAlbum']))
+
+    def test_prevent_duplicate(self):
+        tag = [':AlbumFolder']
+        stfile.tag(self.folder, tag)
+        elements = stfile.get_subjects_with(tag)
+        stfile.tag(self.folder, tag)
+        elements_2 = stfile.get_subjects_with(tag)
+        self.assertEqual(len(elements['AlbumFolder']), len(elements_2['AlbumFolder']))
