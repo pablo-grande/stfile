@@ -10,19 +10,19 @@ from .helpers import set_up
 
 
 CONFIG, _load = set_up()
-GRAPH = Graph()
+graph = Graph()
 
-GRAPH.parse(CONFIG['base_ontology'])
+graph.parse(CONFIG['base_ontology'])
 if _load:
-    GRAPH.load(CONFIG['graph_file'])
+    graph.load(CONFIG['graph_file'])
 
 
-NS = {}
-for _prefix, _uri in GRAPH.namespace_manager.namespaces():
+NS = {} #short for namespaces
+for _prefix, _uri in graph.namespace_manager.namespaces():
     NS[_prefix] = _uri
 
-if CONFIG.get('namespaces'):
-    NS.update(CONFIG['namespaces'])
+if CONFIG.get('prefixes'):
+    NS.update(CONFIG['prefixes'])
 
 
 def _ns_tags(concepts):
@@ -34,19 +34,19 @@ def _ns_tags(concepts):
 
 
 def query(statement):
-    rows = GRAPH.query(prepareQuery(statement))
+    rows = graph.query(prepareQuery(statement))
     return '\n'.join([str(r) for r in rows])
 
 
 def serialize(format_as='n3'):
-    return GRAPH.serialize(format=format_as).decode('utf-8')
+    return graph.serialize(format=format_as).decode('utf-8')
 
 
 def get_subjects_with(tags):
     """List all subjects with matching tags.
 
     Retrieves subject's labels with the given tags as objects in a triple from
-    the GRAPH. Tries to map with the label of the given namespace, if not found
+    the graph. Tries to map with the label of the given namespace, if not found
     the key will be the given tag in the list.
 
     Args:
@@ -58,13 +58,13 @@ def get_subjects_with(tags):
     """
     results = {}
     for index, tag in enumerate(_ns_tags(tags)):
-        key = str(GRAPH.label(tag))
+        key = str(graph.label(tag))
         if key == '':
             key = tags[index]
         results[key] = []
 
-        for subject in GRAPH.subjects(None, tag):
-            label = GRAPH.label(subject)
+        for subject in graph.subjects(None, tag):
+            label = graph.label(subject)
             if label != '':
                 results[key].append(str(label))
 
@@ -74,7 +74,7 @@ def get_subjects_with(tags):
 def get_node_by_label(label):
     found, node = False, BNode()
     search_label = Literal(label, datatype=NS['xsd']+'string')
-    for s in GRAPH.subjects(NS['rdfs']+'label', search_label):
+    for s in graph.subjects(NS['rdfs']+'label', search_label):
         found, node = True, s
 
     return found, node
@@ -82,9 +82,9 @@ def get_node_by_label(label):
 
 
 def tag(path, tags):
-    """Applies tags on the given path in GRAPH.
+    """Applies tags on the given path in graph.
 
-    Given a path it creates a file or folder instance into the GRAPH and then
+    Given a path it creates a file or folder instance into the graph and then
     applies the tags to the node. In case of folder, it applies the same
     tags to all its files inside.
     Tryies to find nodes by labels to prevent adding same node with same info
@@ -97,7 +97,7 @@ def tag(path, tags):
     """
     def apply_tags(subject, tags):
         for tag in tags:
-            GRAPH.add((subject, NS['a'], tag))
+            graph.add((subject, NS['a'], tag))
 
 
     def tag_file(directory, file_name, tags):
@@ -105,21 +105,21 @@ def tag(path, tags):
         found, _file = get_node_by_label(file_name)
 
         if not found:
-            GRAPH.add((_file, NS['a'], NS['nfo']+'FileDataObject'))
+            graph.add((_file, NS['a'], NS['nfo']+'FileDataObject'))
             literal_file_name = Literal(file_name, datatype=NS['xsd']+'string')
-            GRAPH.set((_file, NS['rdfs']+'label', literal_file_name))
-            GRAPH.set((_file, NS['nfo']+'fileName', literal_file_name))
-            GRAPH.set(
+            graph.set((_file, NS['rdfs']+'label', literal_file_name))
+            graph.set((_file, NS['nfo']+'fileName', literal_file_name))
+            graph.set(
                 (_file, NS['nfo']+'fileSize',
                 Literal(os.path.getsize(full_path), datatype=NS['xsd']+'bytes')))
 
             if not directory['node']:
                 _, directory['node'] = get_node_by_label(directory['path'])
-            GRAPH.set((_file, NS['']+'location', directory['node']))
+            graph.set((_file, NS['']+'location', directory['node']))
 
             _, file_format = get_meta_info(full_path)
             if file_format:
-                GRAPH.set((_file, NS['']+'fileFormat', NS['']+file_format.upper()))
+                graph.set((_file, NS['']+'fileFormat', NS['']+file_format.upper()))
 
         apply_tags(_file, tags)
 
@@ -135,14 +135,14 @@ def tag(path, tags):
         found, _dir = get_node_by_label(dir_path)
 
         if not found:
-            GRAPH.add((_dir, NS['a'], NS['nfo']+'Folder'))
+            graph.add((_dir, NS['a'], NS['nfo']+'Folder'))
             literal_dir_path = Literal(dir_path, datatype=NS['xsd']+'string')
-            GRAPH.set((_dir, NS['rdfs']+'label', literal_dir_path))
-            GRAPH.set((_dir, NS['']+'path', literal_dir_path))
+            graph.set((_dir, NS['rdfs']+'label', literal_dir_path))
+            graph.set((_dir, NS['']+'path', literal_dir_path))
 
         apply_tags(_dir, ns_tags)
         for file_name in files:
             directory = {'node': _dir, 'path': dir_path}
             tag_file(directory, file_name, ns_tags)
 
-    GRAPH.serialize(CONFIG['graph_file'], format='xml')
+    graph.serialize(CONFIG['graph_file'], format='xml')

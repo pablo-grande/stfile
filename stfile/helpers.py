@@ -15,7 +15,7 @@ def set_up():
 
     with open(_current_dir + '/config.yml', 'r') as conf:
         config = load(conf)
-        config['namespaces'] = {k: Namespace(v).term('') for k,v in config['namespaces'].items()}
+        config['prefixes'] = {k: Namespace(v).term('') for k,v in config['prefixes'].items()}
 
     if not config.get('graph_file'):
         config['graph_file'] = DEFAULT_GRAPH
