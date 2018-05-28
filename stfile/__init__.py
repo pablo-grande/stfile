@@ -34,8 +34,8 @@ def _ns_tags(concepts):
 
 
 def query(statement):
-    rows = graph.query(prepareQuery(statement))
-    return '\n'.join([str(r) for r in rows])
+    rows = graph.query(prepareQuery(statement, initNs=CONFIG['prefixes']))
+    return [r for r in rows]
 
 
 def serialize(format_as='n3'):

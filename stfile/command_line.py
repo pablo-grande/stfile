@@ -39,9 +39,9 @@ def main():
 
         if args.output:
             with args.output as o:
-                o.write(query_results + "\n")
+                o.write('\n'.join(query_results))
         else:
-            print(query_results)
+            print('\n'.join(query_results))
 
     elif subparser == 'tag':
         tag(args.path, args.tags)
