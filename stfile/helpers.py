@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*
 import os
-import fleep
 from yaml import load
 from rdflib.namespace import Namespace
+from importlib import import_module
 
 
 _current_dir = os.path.join(os.path.dirname(__file__))
@@ -23,14 +23,22 @@ def set_up():
     if not config.get('base_ontology'):
         config['base_ontology'] = DEFAULT_ONTOLOGY
 
+    tags_actions = {}
+    for service, tags in config['services'].items():
+        try:
+            service_module = import_module('stfile.services.' + service)
+            action = service_module.action
+        except ImportError as e:
+            continue
+
+        for tag in tags:
+            if tag in tags_actions:
+                tags_actions[tag].add(action)
+            else:
+                tags_actions[tag] = set()
+                tags_actions[tag].add(action)
+
+    config['tags_actions'] = tags_actions
+
     return config, os.path.exists(config['graph_file'])
 
-
-def get_meta_info(filename):
-    try:
-        type, extension = None, None
-        with open(filename, 'rb') as f:
-            info = fleep.get(f.read(128))
-        type, extension = info.type[0], info.extension[0]
-    finally:
-        return type, extension

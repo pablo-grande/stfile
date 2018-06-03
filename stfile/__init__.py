@@ -5,7 +5,6 @@ from rdflib import Graph
 from rdflib import BNode
 from rdflib import Literal
 from rdflib.plugins.sparql import prepareQuery
-from .helpers import get_meta_info
 from .helpers import set_up
 
 
@@ -80,6 +79,10 @@ def get_node_by_label(label):
     return found, node
 
 
+# create global variable for dictionary structure that will contain
+# {node id: (path or filename, nfo tag of node type=}
+# useful to subscribed services
+node_path = {}
 
 def tag(path, tags):
     """Applies tags on the given path in graph.
@@ -117,11 +120,9 @@ def tag(path, tags):
                 _, directory['node'] = get_node_by_label(directory['path'])
             graph.set((_file, NS['']+'location', directory['node']))
 
-            _, file_format = get_meta_info(full_path)
-            if file_format:
-                graph.set((_file, NS['']+'fileFormat', NS['']+file_format.upper()))
-
         apply_tags(_file, tags)
+        global node_path
+        node_path.update({_file: full_path})
 
 
     ns_tags = _ns_tags(tags)
@@ -130,6 +131,7 @@ def tag(path, tags):
         directory = {'node': None, 'path': '/'.join(os.path.abspath(path).split('/')[:-1])}
         tag_file(directory, os.path.basename(path), ns_tags)
 
+    global node_path
     for root, _, files in os.walk(path):
         dir_path = os.path.abspath(root)
         found, _dir = get_node_by_label(dir_path)
@@ -141,8 +143,18 @@ def tag(path, tags):
             graph.set((_dir, NS['']+'path', literal_dir_path))
 
         apply_tags(_dir, ns_tags)
+        node_path.update({_dir: dir_path})
+
         for file_name in files:
             directory = {'node': _dir, 'path': dir_path}
             tag_file(directory, file_name, ns_tags)
 
+    # apply actions to graph from subscribed services
+    for tag, actions in CONFIG['tags_actions'].items():
+        if tag in tags:
+            for action in actions:
+                action(graph, NS, node_path)
+
     graph.serialize(CONFIG['graph_file'], format='xml')
+
+
