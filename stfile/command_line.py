@@ -25,10 +25,10 @@ def quick_query(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(prog='stf', description='Work with ontologies')
+    parser = argparse.ArgumentParser(prog='stf', description='stfile lets you use semantics to tag folders and files')
     subparsers = parser.add_subparsers(dest="subparser")
 
-    parser_query = subparsers.add_parser('query', description='Execute raw SPARQL query')
+    parser_query = subparsers.add_parser('query', description='Run a SPARQL query onto graph')
     query_group = parser_query.add_mutually_exclusive_group(required=True)
 
     quick_group = query_group.add_mutually_exclusive_group()
@@ -38,20 +38,20 @@ def main():
     quick_group.add_argument('-a','--ask', help='Ask query', nargs='+')
 
     raw_group = query_group.add_mutually_exclusive_group()
-    raw_group.add_argument('-q','--query', help='raw SPARQL query', nargs='+')
-    raw_group.add_argument('-i','--input', help='input file', type=argparse.FileType('r'))
+    raw_group.add_argument('-r','--raw', help='Raw SPARQL query', nargs='+')
+    raw_group.add_argument('-i','--input', help='Input file to read SPARQL query from', type=argparse.FileType('r'))
 
     parser_query.add_argument('-w','--where', help='Where statement', nargs='+')
-    parser_query.add_argument('-o','--output', help='output file', type=argparse.FileType('w', encoding='UTF-8'))
+    parser_query.add_argument('-o','--output', help='Output file to print query results', type=argparse.FileType('w', encoding='UTF-8'))
 
 
     parser_tag = subparsers.add_parser('tag', description='Apply tags to the given path')
-    parser_tag.add_argument('path', help='path to run the command', type=str)
-    parser_tag.add_argument('tags', help='tags to apply in a <prefix>:<suffix> format', nargs='+')
+    parser_tag.add_argument('path', help='Path to run the command', type=str)
+    parser_tag.add_argument('tags', help='Tags to apply in a <prefix>:<suffix> format', nargs='+')
 
 
     parser_list = subparsers.add_parser('list', description='List all instances of a given tag')
-    parser_list.add_argument('tags', help='tags to search in a <prefix>:<suffix> format', nargs='+')
+    parser_list.add_argument('tags', help='Tags to search in a <prefix>:<suffix> format', nargs='+')
 
 
     parser_show = subparsers.add_parser('show', description='Shows whole graph')
