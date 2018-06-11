@@ -24,21 +24,25 @@ class TestTagging(TestCase):
     def test_tag_1(self):
         tag = [':AlbumFolder']
         stfile.tag(self.folder, tag)
-        elements = stfile.get_subjects_with(tag)
+        elements = stfile.get_nodes_with(tag)
         # :AlbumFolder has a label of just 'AlbumFolder'
         self.assertTrue(set(self.contents) <= set(elements['AlbumFolder']))
 
     def test_tag_2(self):
         tags = [':AlbumFolder', ':MusicAlbum']
         stfile.tag(self.folder, tags)
-        elements = stfile.get_subjects_with(tags)
+        elements = stfile.get_nodes_with(tags)
         self.assertTrue(set(self.contents) <= set(elements['AlbumFolder']))
         self.assertTrue(set(self.contents) <= set(elements['MusicAlbum']))
 
     def test_prevent_duplicate(self):
         tag = [':AlbumFolder']
         stfile.tag(self.folder, tag)
-        elements = stfile.get_subjects_with(tag)
+        elements = stfile.get_nodes_with(tag)
         stfile.tag(self.folder, tag)
-        elements_2 = stfile.get_subjects_with(tag)
+        elements_2 = stfile.get_nodes_with(tag)
         self.assertEqual(len(elements['AlbumFolder']), len(elements_2['AlbumFolder']))
+
+
+    def tearDown(self):
+        os.remove('stfile/.graph')

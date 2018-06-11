@@ -60,7 +60,11 @@ def get_nodes_with(tags):
     """
     results = {}
     for index, tag in enumerate(_ns_tags(tags)):
+<<<<<<< HEAD
         repr_tag = graph.label(tag)
+=======
+        repr_tag = str(graph.label(tag))
+>>>>>>> dev
         if repr_tag == '':
             repr_tag = tags[index]
 

@@ -90,7 +90,7 @@ def main():
         if all(len(value) == 0 for value in results.values()):
             print("No match was found")
         else:
-            pprint(results)
+            pprint(results, width=20)
 
     elif subparser == 'show':
         print(serialize(args.format))
