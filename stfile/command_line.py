@@ -86,7 +86,7 @@ def main():
             print("ERROR: Path provided \"{}\" does not exists".format(args.path))
 
     elif subparser == 'list':
-        results = get_subjects_with(args.tags)
+        results = get_nodes_with(args.tags)
         if all(len(value) == 0 for value in results.values()):
             print("No match was found")
         else:

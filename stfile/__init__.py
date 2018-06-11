@@ -41,15 +41,18 @@ def serialize(format_as='n3'):
     return graph.serialize(format=format_as).decode('utf-8')
 
 
-def get_subjects_with(tags):
-    """List all subjects with matching tags.
+def get_nodes_with(tags):
+    """List all nodes with matching tags.
 
-    Retrieves subject's labels with the given tags as objects in a triple from
-    the graph. Tries to map with the label of the given namespace, if not found
-    the key will be the given tag in the list.
+    Retrieves node's labels with the given tags as subject. Maps with the label
+    of the given namespace, if not found the key will be the tag in the list.
+    Iterates over predicate object triples of given tags in order to fill
+    information about the subject, all its predicates and objects.
+    Iterates over subject objects triples in case of predicate and returns
+    connections between subjects and objects through that edge.
 
     Args:
-    tags: A list of concepts to fill the <object> placeholder in a <subject>,
+        A list of concepts to fill the <object> placeholder in a <subject>,
         <predicate>, <object> triple.
 
     Returns:
@@ -57,15 +60,42 @@ def get_subjects_with(tags):
     """
     results = {}
     for index, tag in enumerate(_ns_tags(tags)):
-        key = str(graph.label(tag))
-        if key == '':
-            key = tags[index]
-        results[key] = []
+        repr_tag = graph.label(tag)
+        if repr_tag == '':
+            repr_tag = tags[index]
+
+        results[repr_tag] = {}
 
         for subject in graph.subjects(None, tag):
-            label = graph.label(subject)
-            if label != '':
-                results[key].append(str(label))
+            repr_subject = str(graph.label(subject))
+            if repr_subject != '':
+                predicate_objects = {}
+                for predicate, object in graph.predicate_objects(subject):
+                    # check if there is label for predicate
+                    repr_predicate = str(graph.label(predicate))
+                    if repr_predicate == '':
+                        # by default it would get the word after # from an URI
+                        predicate_name = str(predicate).split('#')
+                        if len(predicate_name) == 1:
+                            # try a regular '/' if no '#' was found
+                            predicate_name = str(predicate).split('/')
+                        repr_predicate = predicate_name[-1]
+
+                    repr_object = str(graph.label(object))
+                    if repr_object == '':
+                        repr_object = str(object)
+
+                    if predicate_objects.get(repr_predicate):
+                        predicate_objects[repr_predicate].append(repr_object)
+                    else:
+                        predicate_objects[repr_predicate] = [repr_object]
+
+                    results[repr_tag].update({repr_subject: predicate_objects})
+
+
+        # get predicate info
+        for subject, object in graph.subject_objects(tag):
+            results.update({repr_tag: str(graph.label(subject)) + ' -> ' + str(graph.label(object))})
 
     return results
 
@@ -87,7 +117,7 @@ node_path = {}
 def tag(path, tags):
     """Applies tags on the given path in graph.
 
-    Given a path it creates a file or folder instance into the graph and then
+    Given a path finds or creates a file or folder instance into the graph and
     applies the tags to the node. In case of folder, it applies the same
     tags to all its files inside.
     Tryies to find nodes by labels to prevent adding same node with same info
@@ -149,12 +179,10 @@ def tag(path, tags):
             directory = {'node': _dir, 'path': dir_path}
             tag_file(directory, file_name, ns_tags)
 
-    # apply actions to graph from subscribed services
+    # apply actions to graph from subscribed agents
     for tag, actions in CONFIG['tags_actions'].items():
         if tag in tags:
             for action in actions:
                 action(graph, NS, node_path)
 
     graph.serialize(CONFIG['graph_file'], format='xml')
-
-
