@@ -1,6 +1,6 @@
 # stfile
 
-Python wrapper around RDFLib applied to a file system ontology.
+Python wrapper for RDFLib applied to a file system ontology.
 
 ## Getting started
 stfile lets you use semantics to tag folders and files.
@@ -26,13 +26,13 @@ You can now run the `stf` command or import stfile itself to develop your own st
 
 ### Enhance Your Files
 
-Use stfile to develop your own services. Add a pure Python script into the config file "config.yml" and attach some tags to it.
+Use stfile to develop your own services. Add a Python script on the config file "config.yml" and attach tags.
 ```
 services:
   my-service:
     - <my>:<super_useful_tag>
 ```
-Every time stfile encounters a tag attached to a service executes the script with the same name inside the `services/` folder.
+Every time stfile finds a tag attached to a service executes the script with the same name inside the `services/` folder.
 
 A service must implement a `action(graph, namespaces, node_path_dictionary)` function.
 * __graph__: A RDFLib Graph instance, contains all current information about the semantic file system
@@ -43,7 +43,7 @@ All namespaces included in config.yml will be loaded into the graph to offer bas
 
 ## Semantics
 
-If you wish to have a better perspective about the graph, print it
+If you wish to have a better perspective about the graph
 ```
 stf show [-h] [-f {n3,xml,pretty-xml,nt}]
 
