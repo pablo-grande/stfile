@@ -10,6 +10,7 @@ prefixes:
   dbo: 'http://dbpedia.org/ontology/'
   dbop: 'http://dbpedia.org/page/'
   mov: 'http://www.movieontology.org/2009/10/01/movieontology.owl#'
+  geo: 'http://www.w3.org/2003/01/geo/wgs84_pos#'
 
 agents:
   file_format:

@@ -60,11 +60,7 @@ def get_nodes_with(tags):
     """
     results = {}
     for index, tag in enumerate(_ns_tags(tags)):
-<<<<<<< HEAD
-        repr_tag = graph.label(tag)
-=======
         repr_tag = str(graph.label(tag))
->>>>>>> dev
         if repr_tag == '':
             repr_tag = tags[index]
 
@@ -99,7 +95,13 @@ def get_nodes_with(tags):
 
         # get predicate info
         for subject, object in graph.subject_objects(tag):
-            results.update({repr_tag: str(graph.label(subject)) + ' -> ' + str(graph.label(object))})
+            repr_subject = str(graph.label(subject))
+            if repr_subject == '':
+                repr_subject = subject
+            repr_object = str(graph.label(object))
+            if repr_object == '':
+                repr_object = object
+            results[repr_tag].update({repr_subject: repr_object})
 
     return results
 
@@ -152,7 +154,7 @@ def tag(path, tags):
 
             if not directory['node']:
                 _, directory['node'] = get_node_by_label(directory['path'])
-            graph.set((_file, NS['']+'location', directory['node']))
+            graph.set((_file, NS['geo']+'location', directory['node']))
 
         apply_tags(_file, tags)
         global node_path
