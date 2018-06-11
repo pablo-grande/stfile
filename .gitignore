@@ -106,3 +106,4 @@ ENV/
 # stfile
 stfile/ontologies/catalog-v001.xml
 *.graph
+.pytest_cache
