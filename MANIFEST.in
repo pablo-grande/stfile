@@ -1,4 +1,4 @@
 include README.md
 include stfile/ontologies/*
 include stfile/config.yml
-include stfile/services/*
+include stfile/agents/*

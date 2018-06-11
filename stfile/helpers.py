@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*
 import os
 from yaml import load
 from rdflib.namespace import Namespace
@@ -8,6 +7,7 @@ from importlib import import_module
 _current_dir = os.path.join(os.path.dirname(__file__))
 DEFAULT_GRAPH = _current_dir + '/.graph'
 DEFAULT_ONTOLOGY = _current_dir + '/ontologies/file_system.owl'
+MO_ONTOLOGY = '/home/pablo/Documents/movieontology.owl'
 
 
 def set_up():
@@ -24,9 +24,9 @@ def set_up():
         config['base_ontology'] = DEFAULT_ONTOLOGY
 
     tags_actions = {}
-    for service, tags in config['services'].items():
+    for service, tags in config['agents'].items():
         try:
-            service_module = import_module('stfile.services.' + service)
+            service_module = import_module('stfile.agents.' + service)
             action = service_module.action
         except ImportError as e:
             continue
@@ -41,4 +41,3 @@ def set_up():
     config['tags_actions'] = tags_actions
 
     return config, os.path.exists(config['graph_file'])
-

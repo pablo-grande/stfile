@@ -7,8 +7,16 @@ prefixes:
   xml: 'http://www.w3.org/XML/1998/namespace#'
   xsd: 'http://www.w3.org/2001/XMLSchema#'
   nfo: 'http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#'
+  dbo: 'http://dbpedia.org/ontology/'
+  dbop: 'http://dbpedia.org/page/'
+  mov: 'http://www.movieontology.org/2009/10/01/movieontology.owl#'
 
-services:
+agents:
   file_format:
     - nfo:FileDataObject
 
+  movies:
+    - mov:Movie
+
+  music:
+    - nfo:Audio
