@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*
 import argparse
 from pprint import pprint
+from os.path import exists
 from . import *
 
 
@@ -79,7 +80,10 @@ def main():
             print('\n'.join(query_results))
 
     elif subparser == 'tag':
-        tag(args.path, args.tags)
+        if exists(args.path):
+            tag(args.path, args.tags)
+        else:
+            print("ERROR: Path provided \"{}\" does not exists".format(args.path))
 
     elif subparser == 'list':
         results = get_subjects_with(args.tags)
