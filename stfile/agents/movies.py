@@ -96,5 +96,9 @@ def action(graph, NS, node_path):
                 graph.set((country, NS['rdfs']+'label', Literal(info['Country'])))
                 graph.set((movie, MO['Place'], country))
 
+            if info.get('Plot'):
+                graph.set((movie, NS['rdfs']+'comment', Literal(info['Plot'])))
+
+
         else:
             print("{name} WARNING: {error}".format(name=__name__, error=info))
