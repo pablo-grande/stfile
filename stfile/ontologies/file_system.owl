@@ -328,21 +328,6 @@
     
 
 
-    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#TVShow -->
-
-    <owl:Class rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#TVShow">
-        <rdfs:subClassOf rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Folder"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#isLocationOf"/>
-                <owl:someValuesFrom rdf:resource="http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#Video"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:label xml:lang="en">TVShow</rdfs:label>
-    </owl:Class>
-    
-
-
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
