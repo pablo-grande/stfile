@@ -50,7 +50,7 @@ def action(graph, NS, node_path):
         title = get_title_from_path(path)
         ok, info = get_movie_info(title)
         if ok:
-            graph.set((movie, NS['a'], MO['Movie']))
+            graph.add((movie, NS['a'], MO['Movie']))
 
             _title = Literal(title)
             if info.get('Title'):
