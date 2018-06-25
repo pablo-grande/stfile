@@ -94,6 +94,7 @@ def get_nodes_with(tags):
 
 
         # get predicate info
+        predicate_objects = set()
         for subject, object in graph.subject_objects(tag):
             repr_subject = str(graph.label(subject))
             if repr_subject == '':
@@ -101,7 +102,8 @@ def get_nodes_with(tags):
             repr_object = str(graph.label(object))
             if repr_object == '':
                 repr_object = object
-            results[repr_tag].update({repr_subject: repr_object})
+            predicate_objects.update({repr_object})
+            results[repr_tag].update({repr_subject: predicate_objects})
 
     return results
 
@@ -140,6 +142,7 @@ def tag(path, tags):
 
 
     def tag_file(directory, file_name, tags):
+        from stfile.agents.file_format import action
         full_path = os.path.join(directory['path'], file_name)
         found, _file = get_node_by_label(file_name)
 
@@ -154,7 +157,8 @@ def tag(path, tags):
 
             if not directory['node']:
                 _, directory['node'] = get_node_by_label(directory['path'])
-            graph.set((_file, NS['geo']+'location', directory['node']))
+            graph.add((directory['node'], NS['']+'isLocationOf', _file))
+            action(graph, NS, {_file: full_path})
 
         apply_tags(_file, tags)
         global node_path
