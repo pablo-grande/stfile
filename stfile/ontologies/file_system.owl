@@ -343,7 +343,16 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#AVI">
         <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
-        <rdfs:comment>AVI</rdfs:comment>
+        <rdfs:label>AVI</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FLAC -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FLAC">
+        <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
+        <rdfs:label>FLAC</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -352,7 +361,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#JPEG">
         <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
-        <rdfs:comment>JPEG</rdfs:comment>
+        <rdfs:label>JPEG</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -361,7 +370,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#JPG">
         <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
-        <rdfs:comment>JPG</rdfs:comment>
+        <rdfs:label>JPG</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -370,7 +379,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MKV">
         <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
-        <rdfs:comment>MKV</rdfs:comment>
+        <rdfs:label>MKV</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -379,7 +388,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MP3">
         <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
-        <rdfs:comment>MP3</rdfs:comment>
+        <rdfs:label>MP3</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -388,7 +397,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#MP4">
         <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
-        <rdfs:comment>MP4</rdfs:comment>
+        <rdfs:label>MP4</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -397,7 +406,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#PNG">
         <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
-        <rdfs:comment>PNG</rdfs:comment>
+        <rdfs:label>PNG</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -406,7 +415,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#TXT">
         <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
-        <rdfs:comment>TXT</rdfs:comment>
+        <rdfs:label>TXT</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -415,7 +424,7 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#WEBM">
         <rdf:type rdf:resource="http://www.semanticweb.org/pablo/ontologies/2018/3/stf#FileFormat"/>
-        <rdfs:comment>WEBM</rdfs:comment>
+        <rdfs:label>WEBM</rdfs:label>
     </owl:NamedIndividual>
 </rdf:RDF>
 
