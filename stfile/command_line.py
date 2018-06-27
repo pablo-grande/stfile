@@ -10,9 +10,9 @@ def quick_query(args):
     # that has a type list in its value. Build the statement by joining all elements in that list
     selected_option, statement = [(option[0], ' '.join(option[1])) for option in args._get_kwargs() if type(option[1]) is list][0]
     options = {
-            'select': 'SELECT { ' + statement + ' } ',
+            'select': 'SELECT ' + statement + ' ',
             'construct': 'CONSTRUCT { ' + statement + ' } ',
-            'describe': 'DESCRIBE { ' + statement + ' } ',
+            'describe': 'DESCRIBE ' + statement + ' ',
             'ask': 'ASK WHERE { ' + statement + ' } ',
             }
 
@@ -65,19 +65,25 @@ def main():
 
     if subparser == 'query':
         query_results = ""
-        if args.query:
+        if args.raw:
             query_results = query(' '.join(args.query))
         elif args.input:
             with args.input as f:
                 query_results = query(f.read())
         else:
-            query_results = query(quick_query(args))
+            query_input = quick_query(args)
+            try:
+                query_results = query(query_input)
+            except Exception as e:
+                print("ERROR: Something went wrong with query '{}'. {}".format(query_input, e))
 
-        if args.output:
-            with args.output as o:
-                o.write('\n'.join(query_results))
-        else:
-            print('\n'.join(query_results))
+        if len(query_results):
+            if args.output:
+                with args.output as o:
+                    o.write(str(query_results))
+            else:
+                for r in query_results:
+                    print(str(r))
 
     elif subparser == 'tag':
         if exists(args.path):

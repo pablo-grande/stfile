@@ -33,7 +33,13 @@ def _ns_tags(concepts):
 
 
 def query(statement):
-    rows = graph.query(prepareQuery(statement, initNs=CONFIG['prefixes']))
+    from rdflib import Namespace
+
+    namespaces = {}
+    for k,v in CONFIG['prefixes'].items():
+        namespaces[k] = Namespace(v)
+    print(statement)
+    rows = graph.query(prepareQuery(statement, initNs=namespaces))
     return [r for r in rows]
 
 
