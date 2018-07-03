@@ -9,8 +9,7 @@ setup(name='stfile',
       description='File System with semantics',
       long_description=readme(),
       classifiers=[
-        'Programming Language :: Python :: 3.5.2',
-        'Topic :: Semantics :: RDF :: OWL',
+        'Programming Language :: Python'
       ],
       keywords='semantics file system RDF OWL',
       url='https://github.com/pabloriutort/stfile',
