@@ -1,6 +1,6 @@
 # stfile
 
-Python wrapper for RDFLib applied to a file system ontology.
+Python wrapper for [RDFLib](https://github.com/RDFLib/rdflib) applied to a file system ontology.
 
 ## Getting started
 stfile lets you use semantics to tag folders and files.
