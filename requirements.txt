@@ -4,7 +4,7 @@ fleep==1.0.1
 isodate==0.6.0
 more-itertools==4.2.0
 pluggy==0.6.0
-py==1.5.3
+py==1.10.0
 pyparsing==2.2.0
 pytest==3.6.0
 rdflib==4.2.2
